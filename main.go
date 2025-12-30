@@ -44,11 +44,14 @@ func main() {
 	cfg.Workers = runtime.NumCPU()
 
 	c := cleaner.NewHTMLCleaner(cfg)
-	proc := &processor.EpubProcessor{Cleaner: c}
+	proc, err := processor.NewConverter(cfg.EpubPath, c)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	fmt.Printf("\nStarting Process...\nFile: %s\nOutput: %s\nWorkers: %d\n\n", cfg.EpubPath, cfg.OutputDir, cfg.Workers)
 
-	err := proc.Process(cfg.EpubPath)
+	err = proc.Process(cfg.EpubPath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -73,8 +76,7 @@ func printBanner() {
 !     | | |_ |/ _ \| '_ \| \ \ / / _ \ '__/ __|/ _ \______| |    | |      | |  
 !     | |__| | (_) | | | | |\ V /  __/ |  \__ \  __/      | |____| |____ _| |_ 
 !      \_____|\___/|_| |_|_| \_/ \___|_|  |___/\___|       \_____|______|_____|
-!                                                                              
-!                                                                                                                                                                                                            
+!                                                                                                                                                                                                               
 `
 	fmt.Println("====================================================================================")
 	fmt.Println(art)
