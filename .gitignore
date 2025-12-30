@@ -13,6 +13,9 @@ output/
 # E-book files
 *.epub
 
+# GoReleaser artifacts
+dist/
+
 # System files
 .DS_Store
 .vscode/
